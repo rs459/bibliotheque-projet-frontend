@@ -84,7 +84,7 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
   };
   return (
     <div className="book-form-container">
-      <h3>{bookId ? "Modifier le livre" : "Ajouter unnouveau livre"}</h3>
+      <h3>{bookId ? "Modifier le livre" : "Ajouter un nouveau livre"}</h3>
       {error && <div className="errormessage">{error}</div>}
       <form onSubmit={handleSubmit} className="bookform">
         <div className="form-group">
@@ -111,8 +111,7 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
             <option value="">Sélectionner un auteur</option>
             {authors.map((author) => (
               <option key={author.id} value={`/api/authors/${author.id}`}>
-                {author.firstName}
-                {author.lastName}
+                {author.firstName}&nbsp;{author.lastName}
               </option>
             ))}
           </select>

@@ -13,7 +13,7 @@ const BookCard = ({ book, onDelete, onEdit }) => {
 
   const handleImageError = (e) => {
     e.target.src =
-      "https://via.placeholder.com/200x300/cccccc/666666?text=Image+non+disponible";
+      "https://placehold.co/200x300/cccccc/666666?text=Image+Non+disponible";
   };
 
   return (
@@ -22,8 +22,7 @@ const BookCard = ({ book, onDelete, onEdit }) => {
         <img
           src={
             book.image ||
-            "https://via.placeholder.com/200x300/cccccc/666666?text=Pas+d\
-                        image"
+            "https://placehold.co/200x300/cccccc/666666?text=Pas+d'image"
           }
           alt={book.title}
           className="book-image"

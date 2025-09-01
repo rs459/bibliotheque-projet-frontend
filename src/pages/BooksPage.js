@@ -7,24 +7,29 @@ const BooksPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingBook, setEditingBook] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
+
   const handleAddBook = () => {
     setEditingBook(null);
     setShowForm(true);
   };
+
   const handleEditBook = (book) => {
     setEditingBook(book);
     setShowForm(true);
   };
+
   const handleSaveBook = (savedBook) => {
     setShowForm(false);
     setEditingBook(null);
     // Forcer le rechargement de la liste
     setRefreshKey((prev) => prev + 1);
   };
+
   const handleCancel = () => {
     setShowForm(false);
     setEditingBook(null);
   };
+
   return (
     <div className="books-page">
       <div className="page-header">
@@ -49,4 +54,5 @@ const BooksPage = () => {
     </div>
   );
 };
+
 export default BooksPage;
