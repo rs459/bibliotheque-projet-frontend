@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { bookService, authorService } from "../../services/api";
+import { bookService, authorService, editorService } from "../../services/api";
 import "./BookForm.css";
 const BookForm = ({ bookId = null, onSave, onCancel }) => {
   const [book, setBook] = useState({
@@ -8,13 +8,16 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
     pages: "",
     image: "",
     author: "",
+    editor: "",
   });
   const [authors, setAuthors] = useState([]);
+  const [editors, setEditors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   // Charger les auteurs et le livre (si modification)
   useEffect(() => {
     loadAuthors();
+    loadEditors();
     if (bookId) {
       loadBook(bookId);
     }
@@ -27,6 +30,16 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
       console.error("Erreur lors du chargement des auteurs:", error);
     }
   };
+
+  const loadEditors = async () => {
+    try {
+      const editorsData = await editorService.getAll();
+      setEditors(editorsData);
+    } catch (error) {
+      console.error("Erreur lors du chargement des éditeurs:", error);
+    }
+  };
+
   const loadBook = async (id) => {
     try {
       const bookData = await bookService.getById(id);
@@ -36,6 +49,7 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
         pages: bookData.pages,
         image: bookData.image || "",
         author: bookData.author["@id"] || bookData.author, // Gestion de l'IRI
+        editor: bookData.editor["@id"] || bookData.editor,
       });
     } catch (error) {
       setError("Erreur lors du chargement du livre");
@@ -51,7 +65,7 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Validation basique
-    if (!book.title.trim() || !book.author || !book.pages) {
+    if (!book.title.trim() || !book.author || !book.pages || !book.editor) {
       setError("Veuillez remplir tous les champs obligatoires");
       return;
     }
@@ -65,6 +79,9 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
         author: book.author.startsWith("/api/authors/")
           ? book.author
           : `/api/authors/${book.author}`,
+        editor: book.editor.startsWith("/api/editors/")
+          ? book.editor
+          : `/api/editors/${book.editor}`,
       };
       let savedBook;
       if (bookId) {
@@ -112,6 +129,23 @@ const BookForm = ({ bookId = null, onSave, onCancel }) => {
             {authors.map((author) => (
               <option key={author.id} value={`/api/authors/${author.id}`}>
                 {author.firstName}&nbsp;{author.lastName}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="editor">Éditeur *</label>
+          <select
+            id="editor"
+            name="editor"
+            value={book.editor}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Sélectionner un éditeur</option>
+            {editors.map((editor) => (
+              <option key={editor.id} value={`/api/editors/${editor.id}`}>
+                {editor.name}
               </option>
             ))}
           </select>

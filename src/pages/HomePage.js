@@ -57,6 +57,14 @@ const HomePage = () => {
             Rechercher →
           </Link>
         </div>
+        <div className="feature-card">
+          <div className="feature-icon">🏢</div>
+          <h3>Gestion des Éditeurs</h3>
+          <p>Ajoutez, modifiez et organisez votre collection d'éditeurs</p>
+          <Link to="/editors" className="featurelink">
+            Voir les éditeurs →
+          </Link>
+        </div>
       </div>
       <div className="stats-section">
         <h2>Votre Bibliothèque en Chiffres</h2>

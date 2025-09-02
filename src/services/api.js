@@ -101,3 +101,46 @@ export const bookService = {
     }
   },
 };
+
+export const editorService = {
+  getAll: async () => {
+    try {
+      const response = await apiClient.get("/editors");
+      return extractHydraMember(response.data);
+    } catch (error) {
+      throw new Error("Impossible de charger les éditeurs");
+    }
+  },
+  getById: async (id) => {
+    try {
+      const response = await apiClient.get(`/editors/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Éditeur avec l'ID ${id} introuvable`);
+    }
+  },
+  create: async (editorData) => {
+    try {
+      const response = await apiClient.post("/editors", editorData);
+      return response.data;
+    } catch (error) {
+      throw new Error("Erreur lors de la création de l'éditeur");
+    }
+  },
+  update: async (id, editorData) => {
+    try {
+      const response = await apiClient.put(`/editors/${id}`, editorData);
+      return response.data;
+    } catch (error) {
+      throw new Error("Erreur lors de la mise à jour de l'éditeur");
+    }
+  },
+  delete: async (id) => {
+    try {
+      await apiClient.delete(`/editors/${id}`);
+      return true;
+    } catch (error) {
+      throw new Error("Erreur lors de la suppression de l'éditeur");
+    }
+  },
+};

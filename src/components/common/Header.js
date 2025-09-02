@@ -34,6 +34,14 @@ const Header = () => {
           >
             Auteurs
           </Link>
+          <Link
+            to="/editors"
+            className={`nav-link ${
+              location.pathname === "/editors" ? "active" : ""
+            }`}
+          >
+            Éditeurs
+          </Link>
         </nav>
       </div>
     </header>
